@@ -60,4 +60,4 @@ ai-instagram-caption-generator/
 ```
 
 ## License
-MIT Licensegit status
+MIT License
