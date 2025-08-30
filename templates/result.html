@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your AI Generated Captions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="results-container">
+        <div class="results-header">
+            <h1 class="results-title">
+                <span class="gradient-text">Your Captions</span> are Ready! 🎉
+            </h1>
+            <p class="results-subtitle">Choose your favorite and make your post shine</p>
+        </div>
+
+        <div class="results-content">
+            <div class="image-section">
+                <div class="image-wrapper">
+                    <img src="{{ url_for('uploaded_file', filename=image_filename) }}" 
+                         alt="Your uploaded photo" class="result-image">
+                    <div class="image-overlay">
+                        <span class="image-label">Your Photo</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="captions-section">
+                {% if captions %}
+                <div class="captions-grid">
+                    {% for caption in captions %}
+                    <div class="caption-card" data-caption="{{ loop.index }}">
+                        <div class="caption-header">
+                            <div class="caption-type">
+                                {% if loop.index == 1 %}
+                                <span class="type-badge fun">🎉 Fun & Casual</span>
+                                {% elif loop.index == 2 %}
+                                <span class="type-badge motivational">💪 Motivational</span>
+                                {% elif loop.index == 3 %}
+                                <span class="type-badge trendy">🔥 Trendy</span>
+                                {% else %}
+                                <span class="type-badge heartfelt">❤️ Heartfelt</span>
+                                {% endif %}
+                            </div>
+                            <button class="copy-btn" onclick="copyCaption('{{ caption|replace("'", "\\'") }}', this)">
+                                <span class="copy-icon">📋</span>
+                                Copy
+                            </button>
+                        </div>
+                        <div class="caption-text">{{ caption }}</div>
+                        <div class="caption-footer">
+                            <span class="char-count">{{ caption|length }}/140 chars</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if hashtags %}
+                <div class="hashtags-section">
+                    <div class="hashtags-header">
+                        <h3 class="hashtags-title">Trending Hashtags</h3>
+                        <button class="copy-btn secondary" onclick="copyHashtags('{{ hashtags|join(' ')|replace("'", "\\'") }}', this)">
+                            <span class="copy-icon">📋</span>
+                            Copy All
+                        </button>
+                    </div>
+                    <div class="hashtags-grid">
+                        {% for tag in hashtags %}
+                        <span class="hashtag-tag" onclick="copyHashtag('{{ tag|replace("'", "\\'") }}')">
+                            {{ tag }}
+                        </span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="actions-section">
+            <a href="{{ url_for('index') }}" class="action-btn primary">
+                <span class="btn-icon">✨</span>
+                Generate New Captions
+            </a>
+            <button class="action-btn secondary" onclick="shareResults()">
+                <span class="btn-icon">📱</span>
+                Share Results
+            </button>
+        </div>
+
+        <!-- Success notification -->
+        <div id="notification" class="notification">
+            <span class="notification-icon">✅</span>
+            <span class="notification-text">Copied to clipboard!</span>
+        </div>
+    </div>
+
+    <script>
+        function copyCaption(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('Caption copied to clipboard!');
+                animateButton(button);
+            });
+        }
+
+        function copyHashtags(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('All hashtags copied to clipboard!');
+                animateButton(button);
+            });
+        }
+
+        function copyHashtag(hashtag) {
+            navigator.clipboard.writeText(hashtag).then(() => {
+                showNotification(`${hashtag} copied!`);
+            });
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const textElement = notification.querySelector('.notification-text');
+            textElement.textContent = message;
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function animateButton(button) {
+            button.classList.add('copied');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<span class="copy-icon">✅</span>Copied!';
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+
+        function shareResults() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Check out my AI-generated Instagram captions!',
+                    text: 'I just created amazing captions using AI!',
+                    url: window.location.href
+                });
+            } else {
+                copyToClipboard(window.location.href);
+                showNotification('Link copied to clipboard!');
+            }
+        }
+
+        // Add hover effects to caption cards
+        document.querySelectorAll('.caption-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>

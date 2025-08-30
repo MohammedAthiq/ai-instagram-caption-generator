@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Insta Caption Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main-container">
+        <div class="hero-section">
+            <div class="gradient-bg"></div>
+            <div class="content-wrapper">
+                <div class="header">
+                    <h1 class="main-title">
+                        <span class="gradient-text">AI Instagram</span>
+                        <br>Caption Generator
+                    </h1>
+                    <p class="subtitle">Transform your photos into engaging captions with AI magic ✨</p>
+                </div>
+
+                <div class="upload-container">
+                    <form action="{{ url_for('generate') }}" method="POST" enctype="multipart/form-data" class="upload-form">
+                        <div class="file-upload-wrapper">
+                            <input type="file" id="photo" name="photo" required accept="image/*" class="file-input">
+                            <label for="photo" class="file-label">
+                                <div class="upload-icon">📸</div>
+                                <span class="upload-text">Choose your photo</span>
+                                <span class="upload-subtext">PNG, JPG, JPEG up to 10MB</span>
+                            </label>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="desc" class="input-label">Description (Optional)</label>
+                            <input type="text" id="desc" name="desc" 
+                                   placeholder="Tell us about your photo..." 
+                                   class="text-input">
+                        </div>
+
+                        <button type="submit" class="generate-btn">
+                            <span class="btn-text">Generate Captions</span>
+                            <div class="btn-icon">🚀</div>
+                        </button>
+                    </form>
+
+                    {% if image_filename %}
+                    <div class="preview-section">
+                        <h3 class="preview-title">Preview</h3>
+                        <img src="{{ url_for('static', filename='uploads/' ~ image_filename) }}" 
+                             alt="Uploaded Image" class="preview-image">
+                    </div>
+                    {% endif %}
+
+                    {% if caption %}
+                    <div class="result-preview">
+                        <h3>Generated Caption:</h3>
+                        <p class="caption-text">{{ caption }}</p>
+                        {% if hashtags %}
+                        <div class="hashtags-preview">
+                            {% for tag in hashtags %}
+                            <span class="hashtag-pill">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    {% if error %}
+                    <div class="error-message">
+                        <span class="error-icon">⚠️</span>
+                        {{ error }}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="features">
+                    <div class="feature-item">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Smart Analysis</h3>
+                        <p>AI analyzes your photo to create relevant captions</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">✍️</div>
+                        <h3>Multiple Options</h3>
+                        <p>Get 4 different caption styles to choose from</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">#️⃣</div>
+                        <h3>Smart Hashtags</h3>
+                        <p>Trending hashtags tailored to your content</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // File upload preview
+        document.getElementById('photo').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const label = document.querySelector('.file-label');
+            
+            if (file) {
+                label.querySelector('.upload-text').textContent = file.name;
+                label.querySelector('.upload-subtext').textContent = `${(file.size / 1024 / 1024).toFixed(2)} MB`;
+                label.classList.add('file-selected');
+            }
+        });
+
+        // Form submission loading state
+        document.querySelector('.upload-form').addEventListener('submit', function() {
+            const btn = document.querySelector('.generate-btn');
+            btn.classList.add('loading');
+            btn.querySelector('.btn-text').textContent = 'Generating...';
+        });
+    </script>
+</body>
+</html>
