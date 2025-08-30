@@ -1,17 +1,19 @@
+# AI Instagram Caption Generator 🚀
 
-
-# AI Instagram Caption Generator
-
-Generate creative Instagram captions instantly using AI.
+Create catchy Instagram captions in seconds using AI and the Gemini API!
 
 ## Description
-This web app takes an image or a short description as input and generates 3–4 Instagram captions categorized by style (e.g., Funny, Inspirational, Romantic). Built with Flask and AI API integration, it’s perfect for content creators and social media enthusiasts.
+This Flask web app transforms your images or short descriptions into 3–4 creative Instagram captions instantly. Whether you want funny, inspirational, or romantic captions, this app has you covered. Powered by the **Gemini API**, it generates smart, context-aware captions perfect for boosting engagement on social media.
 
 ## Features
-- Generate multiple captions from a photo or text description
-- Categorizes captions by style
-- Fast and easy to use
-- Built with Flask and AI API
+- Generate multiple captions from an image or text description
+- Captions categorized by style (Funny, Inspirational, Romantic, etc.)
+- Fast, easy-to-use, and interactive
+- Built with Flask + Gemini API for AI-powered caption generation
+- Resume-ready project for your portfolio
+
+## Demo
+Try it locally and see the magic!  
 
 ## Installation
 
@@ -35,8 +37,8 @@ pip install -r requirements.txt
 
 4. Set environment variables:
 ```bash
-export GOOGLE_API_KEY=<your-Gemini-API-key>   # Mac/Linux
-set GOOGLE_API_KEY=<your-Gemini-API-key>      # Windows
+export GEMINI_API_KEY=<your-Gemini-API-key>   # Mac/Linux
+set GEMINI_API_KEY=<your-Gemini-API-key>      # Windows
 ```
 
 5. Run the app locally:
@@ -58,4 +60,4 @@ ai-instagram-caption-generator/
 ```
 
 ## License
-MIT License
+MIT Licensegit status
