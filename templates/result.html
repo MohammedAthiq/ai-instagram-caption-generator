@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
     <div class="results-container">
         <div class="results-header">
@@ -21,8 +23,8 @@
         <div class="results-content">
             <div class="image-section">
                 <div class="image-wrapper">
-                    <img src="{{ url_for('uploaded_file', filename=image_filename) }}" 
-                         alt="Your uploaded photo" class="result-image">
+                    <img src="{{ url_for('uploaded_file', filename=image_filename) }}" alt="Your uploaded photo"
+                        class="result-image">
                     <div class="image-overlay">
                         <span class="image-label">Your Photo</span>
                     </div>
@@ -64,7 +66,8 @@
                 <div class="hashtags-section">
                     <div class="hashtags-header">
                         <h3 class="hashtags-title">Trending Hashtags</h3>
-                        <button class="copy-btn secondary" onclick="copyHashtags('{{ hashtags|join(' ')|replace("'", "\\'") }}', this)">
+                        <button class="copy-btn secondary"
+                            onclick="copyHashtags('{{ hashtags|join(' ')|replace("'", "\\'") }}', this)">
                             <span class="copy-icon">📋</span>
                             Copy All
                         </button>
@@ -86,9 +89,9 @@
                 <span class="btn-icon">✨</span>
                 Generate New Captions
             </a>
-            <button class="action-btn secondary" onclick="shareResults()">
-                <span class="btn-icon">📱</span>
-                Share Results
+            <button class="action-btn secondary" onclick="tellFriends()">
+                <span class="btn-icon">🚀</span>
+                Tell Friends About This
             </button>
         </div>
 
@@ -124,9 +127,9 @@
             const notification = document.getElementById('notification');
             const textElement = notification.querySelector('.notification-text');
             textElement.textContent = message;
-            
+
             notification.classList.add('show');
-            
+
             setTimeout(() => {
                 notification.classList.remove('show');
             }, 3000);
@@ -136,36 +139,41 @@
             button.classList.add('copied');
             const originalText = button.innerHTML;
             button.innerHTML = '<span class="copy-icon">✅</span>Copied!';
-            
+
             setTimeout(() => {
                 button.innerHTML = originalText;
                 button.classList.remove('copied');
             }, 2000);
         }
 
-        function shareResults() {
+        function tellFriends() {
+            const appUrl = 'https://ai-instagram-caption-generator.onrender.com';
+            const message = 'Check out this awesome AI Instagram Caption Generator! It creates perfect captions for your photos instantly. 🤖✨';
+
             if (navigator.share) {
                 navigator.share({
-                    title: 'Check out my AI-generated Instagram captions!',
-                    text: 'I just created amazing captions using AI!',
-                    url: window.location.href
+                    title: 'AI Instagram Caption Generator',
+                    text: message,
+                    url: appUrl
                 });
             } else {
-                copyToClipboard(window.location.href);
-                showNotification('Link copied to clipboard!');
+                navigator.clipboard.writeText(appUrl).then(() => {
+                    showNotification('App link copied to clipboard! Share it with your friends.');
+                });
             }
         }
 
         // Add hover effects to caption cards
         document.querySelectorAll('.caption-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
+            card.addEventListener('mouseenter', function () {
                 this.style.transform = 'translateY(-2px)';
             });
-            
-            card.addEventListener('mouseleave', function() {
+
+            card.addEventListener('mouseleave', function () {
                 this.style.transform = 'translateY(0)';
             });
         });
     </script>
 </body>
+
 </html>
