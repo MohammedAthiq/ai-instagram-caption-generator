@@ -10,7 +10,6 @@ This Flask web app transforms your images or short descriptions into 3–4 creat
 - Captions categorized by style (Funny, Inspirational, Romantic, etc.)
 - Fast, easy-to-use, and interactive
 - Built with Flask + Gemini API for AI-powered caption generation
-- Resume-ready project for your portfolio
 
 ## Demo
 👉 [Live Demo](https://ai-instagram-caption-generator.onrender.com)
