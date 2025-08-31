@@ -13,7 +13,9 @@ This Flask web app transforms your images or short descriptions into 3–4 creat
 - Resume-ready project for your portfolio
 
 ## Demo
-Try it locally and see the magic!  
+👉 [Live Demo](https://ai-instagram-caption-generator.onrender.com)
+
+Or try it locally:
 
 ## Installation
 
