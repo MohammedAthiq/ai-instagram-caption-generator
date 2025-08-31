@@ -58,6 +58,12 @@ ai-instagram-caption-generator/
 ├── static/            # CSS/JS files
 └── README.md
 ```
+## Screenshots
+
+![Homepage](p1.png)
+![Homepage](p2.png)
+
+![Results](p3.png)
 
 ## License
 MIT License
