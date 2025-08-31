@@ -64,5 +64,3 @@ ai-instagram-caption-generator/
 <img src="p2.png" alt="Homepage" width="400">
 <img src="p3.png" alt="Results" width="400">
 
-## License
-MIT License
