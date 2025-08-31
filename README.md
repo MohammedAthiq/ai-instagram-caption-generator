@@ -60,11 +60,9 @@ ai-instagram-caption-generator/
 └── README.md
 ```
 ## Screenshots
-
-![Homepage](p1.png)
-![Homepage](p2.png)
-
-![Results](p3.png)
+<img src="p1.png" alt="Homepage" width="400">
+<img src="p2.png" alt="Homepage" width="400">
+<img src="p3.png" alt="Results" width="400">
 
 ## License
 MIT License
