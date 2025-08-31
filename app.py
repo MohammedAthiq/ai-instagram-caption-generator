@@ -31,8 +31,11 @@ def allowed_file(filename):
 def index():
     return render_template("index.html")
 
-@app.route("/generate", methods=["POST"])
+@app.route("/generate", methods=["GET", "POST"])
 def generate():
+    if request.method == "GET":
+        return redirect(url_for("index"))
+    
     if "photo" not in request.files:
         flash("No file part")
         return redirect(url_for("index"))
