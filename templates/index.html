@@ -74,6 +74,18 @@
                         {{ error }}
                     </div>
                     {% endif %}
+
+                    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flashes">
+      {% for msg in messages %}
+        <li>{{ msg }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+
                 </div>
 
                 <div class="features">
@@ -95,7 +107,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
 
     <script>
         // File upload preview

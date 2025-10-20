@@ -3,14 +3,13 @@ import base64
 from flask import Flask, render_template, request, redirect, url_for, flash
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
-import google.generativeai as genai
 from PIL import Image
+import google.generativeai as genai
 
 # Load environment variables
 load_dotenv()
-API_KEY = os.getenv("GOOGLE_API_KEY")
-genai.configure(api_key=API_KEY)
-model = genai.GenerativeModel("gemini-1.5-flash")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+genai.configure(api_key=GOOGLE_API_KEY)
 
 # Flask setup
 UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), "uploads")
@@ -24,6 +23,7 @@ app.secret_key = os.environ.get("SECRET_KEY","dev")
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+model = genai.GenerativeModel("models/gemini-2.5-flash")
 def allowed_file(filename):
     return "." in filename and filename.rsplit(".",1)[1].lower() in ALLOWED_EXT
 
@@ -42,6 +42,9 @@ def generate():
 
     file = request.files["photo"]
     user_desc = request.form.get("desc","").strip()
+    print("Request files:", request.files)
+    print("Description:", user_desc)
+    print("File received:", file.filename if "photo" in request.files else "No file")
 
     if file.filename == "":
         flash("No selected file")
@@ -95,7 +98,8 @@ def generate():
             result = json.loads(cleaned)
             captions = result.get("captions", [])  # Now expecting multiple captions
             hashtags = result.get("hashtags", [])
-        except Exception:
+        except Exception as e:
+            print("JSON parsing error:", e)
             captions = [content]  # Fallback to single caption
             hashtags = []
 
@@ -111,5 +115,5 @@ def uploaded_file(filename):
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 5002))
     app.run(host="0.0.0.0", port=port)
